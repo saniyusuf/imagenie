@@ -5,15 +5,13 @@ You simply put the imagenie attribute on your DIV or IMG and the component will 
 
 ##You Must Have LocalForage And AngularLocalForage Installed As It Is Dependant On This Great Tool##
 
-E.G Of Use 
-<div imagenie="http://myImagePath/subPath/myImage.jpg"> </div>
-<img ng-src="http://myImagePath/subPath/myImage.jpg">
-  
-or even
-<img imagenie="http://myImagePath/subPath/myImage.jpg">
+##E.G Of Use 
+    <div imagenie="http://myImagePath/subPath/myImage.jpg"> </div>
+    <img ng-src="http://myImagePath/subPath/myImage.jpg">
+    <img imagenie="http://myImagePath/subPath/myImage.jpg">
 
 
-##List Of Todos##
+##List Of Todos
 * Unit Testing
 * End To End Testing
 * Integrate Background Worker
