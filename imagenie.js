@@ -14,18 +14,21 @@
     angular.module('imagenie', ['LocalForageModule'])
 
         .constant('IMAGENIE_LOCAL_FORAGE_CONFIG', {
-            name        : 'imagenie_db', // name of the database and prefix for your data, it is "lf" by default
-            storeName   : 'image', // name of the table
+            name        : 'imagenie_db',
+            storeName   : 'image',
             description : 'The database to hold base 64 versions of all your images so they are available offline'
         })
 
-        .factory('ImagenieUtil', ImagenieUtil)
+        .factory('ImagenieUtil', ['$q', ImagenieUtil])
 
         .directive('imagenie', ['ImagenieUtil', '$localForage', 'IMAGENIE_LOCAL_FORAGE_CONFIG', DirectiveFunction]);
 
-    function ImagenieUtil (){
+    function ImagenieUtil ($q){
         var ImagenieUtil = {};
-        ImagenieUtil.getImageBase64String = function (url, callback, outputFormat){
+
+        ImagenieUtil.getImageBase64String = function (url, outputFormat) {
+            var imageBase64StringPromise = $q.defer();
+
             var canvas = document.createElement('CANVAS'),
                 ctx = canvas.getContext('2d'),
                 img = new Image;
@@ -36,10 +39,16 @@
                 canvas.width = img.width;
                 ctx.drawImage(img, 0, 0);
                 dataURL = canvas.toDataURL(outputFormat);
-                callback.call(this, dataURL);
+                imageBase64StringPromise.resolve(dataURL);
                 canvas = null;
+                //callback.call(this, dataURL);
+            };
+            img.onerror = function () {
+              imageBase64StringPromise.reject(url);
             };
             img.src = url;
+            return imageBase64StringPromise.promise;
+
         };
 
         ImagenieUtil.isUndefined = function (value) {
@@ -52,13 +61,13 @@
 
         ImagenieUtil.getImageSrc = function (elementAttributes) {
             if(!this.isEmpty(elementAttributes.imagenie)){
-                console.log('Image SRC Gotten From Imagenie : ' + elementAttributes.imagenie);
+                //console.log('Image SRC Gotten From Imagenie : ' + elementAttributes.imagenie);
                 return elementAttributes.imagenie;
             }else if(!this.isEmpty(elementAttributes.ngSrc)){
-                console.log('Image SRC Gotten From NG-SRC : ' + elementAttributes.ngSrc);
+                //console.log('Image SRC Gotten From NG-SRC : ' + elementAttributes.ngSrc);
                 return elementAttributes.ngSrc;
             }else if (!this.isEmpty(elementAttributes.src)){
-                console.log('Image SRC Gotten From SRC : ' + elementAttributes.src);
+                //console.log('Image SRC Gotten From SRC : ' + elementAttributes.src);
                 return elementAttributes.src;
             }else{
                 console.warn('Image Src Undefined');
@@ -111,26 +120,22 @@
                         attrs.ngSrc = '';
                         imagenieLocalForageInstance.getItem(encodeURIComponent(imageSrc))
                             .then(function (localImageSuccessData) {
-                                console.log('This Image Exists In Local Forage: ' + imageSrc);
+                                //console.log('This Image Exists In Local Forage: ' + imageSrc);
                                 if(!ImagenieUtil.isEmpty(localImageSuccessData)){
 
                                     ImagenieUtil.setImageToElement(element, localImageSuccessData);
 
                                 }else{
-                                    console.log('Image Exist But Is Undefined Or Empty');
+                                    //console.log('Image Exist But Is Undefined Or Empty');
                                     var newImage = angular.element('<img />');
                                     newImage.bind('load', function (loadedEvent) {
-                                        ImagenieUtil.getImageBase64String(imageSrc, function (imageBase64String) {
-                                            console.log('Gotten The Base 64 Image String');
+                                        ImagenieUtil.getImageBase64String(imageSrc)
+                                            .then(function (imageBase64String) {
+                                                //console.log('Gotten The Base 64 Image String');
+                                                imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
+                                                ImagenieUtil.setImageToElement(element, imageBase64String);
 
-                                            imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
-                                            ImagenieUtil.setImageToElement(element, imageBase64String);
-
-                                        });
-                                    });
-
-                                    newImage.bind('error', function (errorEvent) {
-                                        ImagenieUtil.setImageToElement(element, imageSrc);
+                                            });
                                     });
 
                                     newImage.attr('src', imageSrc);
@@ -138,26 +143,21 @@
 
                             }, function (localImageFailureData) {
 
-                                console.log('Image Does Not Exist In Local Forage');
+                                //console.log('Image Does Not Exist In Local Forage');
                                 var newImage = angular.element('<img />');
                                 newImage.bind('load', function (loadedEvent) {
-                                    ImagenieUtil.getImageBase64String(imageSrc, function (imageBase64String) {
-                                        console.log('Gotten The Base 64 Image String');
-
-                                        imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
-                                        ImagenieUtil.setImageToElement(element, imageBase64String);
-
-                                    });
-                                });
-
-                                newImage.bind('error', function (errorEvent) {
-                                    ImagenieUtil.setImageToElement(element, imageSrc);
+                                    ImagenieUtil.getImageBase64String(imageSrc)
+                                        .then(function (imageBase64String) {
+                                            //console.log('Gotten The Base 64 Image String');
+                                            imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
+                                            ImagenieUtil.setImageToElement(element, imageBase64String);
+                                        });
                                 });
 
                                 newImage.attr('src', imageSrc);
                             });
                     }else{
-                        console.log(attrs);
+                        //console.log(attrs);
                     }
                 });
 
