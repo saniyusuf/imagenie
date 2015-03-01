@@ -1,6 +1,9 @@
 {
   "name": "imagenie",
-  "main": "imagenie.js",
+  "main": [
+    "imagenie.js",
+    "imagenie.min.js"
+  ],
   "version": "0.0.0",
   "homepage": "https://github.com/saniyusuf/imagenie",
   "authors": [
@@ -21,17 +24,25 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "karma.conf.js",
+    "gulpfile.js",
+    ".gitignore"
   ],
   "devDependencies": {
     "angular": "1.3.6",
-    "angular-mocks": "1.3.6"
+    "angular-mocks": "1.3.6",
+    "ionic": "1.0.0-beta.14"
   },
   "dependencies": {
-    "angular-localforage": "1.2.2",
-    "localforage": "1.2.2"
+    "angular-localforage": "~1.2.2",
+    "localforage": "~1.2.2"
   },
   "resolutions": {
-    "localforage": "1.2.0"
+    "localforage": "1.2.2",
+    "angular": "1.3.6",
+    "angular-animate": "1.3.6",
+    "angular-ui-router": "0.2.13",
+    "angular-sanitize": "1.3.6"
   }
 }
