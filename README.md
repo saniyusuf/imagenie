@@ -11,11 +11,7 @@ You simply put the imagenie attribute on your DIV or IMG and the component will 
     <img imagenie="http://myImagePath/subPath/myImage.jpg">
 
 
-##List Of Todos
-* Unit Testing
-* End To End Testing
-* Integrate Background Worker
-* Remove Reliance On Local Forage
-* Make It Work Without Ionic
+##Roadmap
+* ~~Unit Testing~~
 
 
