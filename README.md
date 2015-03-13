@@ -13,6 +13,7 @@ You simply put the imagenie attribute on your DIV or IMG and the component will 
 
 ##Roadmap
 * ~~Unit Testing~~
+* ~~Contnous Int With Travis~~
 * Integrate expiry option
 * Integrate feature that clears expired images per launch
 * Integrate Web Worker Support
