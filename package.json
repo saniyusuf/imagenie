@@ -8,6 +8,7 @@
     "karma-jasmine": "",
     "karma-cli": "",
     "jasmine": "",
-    "karma-chrome-launcher": ""
+    "karma-chrome-launcher": "",
+    "karma-phantomjs-launcher": ""
   }
 }
