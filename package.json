@@ -5,6 +5,7 @@
   "devDependencies": {
     "bower": "^1.3.3",
     "karma": "",
+    "karma-jasmine": "",
     "karma-cli": "",
     "jasmine": "",
     "karma-chrome-launcher": ""
