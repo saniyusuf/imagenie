@@ -64,6 +64,8 @@
                 return elementAttributes.ngSrc;
             }else if (!this.isEmpty(elementAttributes.src)){
                 return elementAttributes.src;
+            }else if (!this.isEmpty(elementAttributes.defaultImg)){
+                return elementAttributes.defaultImg;
             }else{
                 console.warn('Image Src Undefined');
                 return null;
