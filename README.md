@@ -8,9 +8,9 @@ You simply put the imagenie attribute on your DIV or IMG and the component will 
 ##You Must Have LocalForage And AngularLocalForage Installed As It Is Dependant On This Great Tool##
 
 ##E.G Of Use 
-    <div imagenie="http://myImagePath/subPath/myImage.jpg"> </div>
-    <img ng-src="http://myImagePath/subPath/myImage.jpg">
-    <img imagenie="http://myImagePath/subPath/myImage.jpg">
+    <div imagenie="http://myImagePath/subPath/myImage.jpg" default-img="defaultImg.jpg"> </div>
+    <img ng-src="http://myImagePath/subPath/myImage.jpg" default-img="defaultImg.jpg">
+    <img imagenie="http://myImagePath/subPath/myImage.jpg" default-img="defaultImg.jpg">
 
 
 ##Roadmap
