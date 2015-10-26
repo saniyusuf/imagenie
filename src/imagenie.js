@@ -133,7 +133,7 @@
                                 }else{
                                     
                                     // No need to create a new img element, just set the image
-                                    ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, attrs.imageQuality)
+                                    ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, scope.$eval(attrs.imageQuality))
                                         .then(function (imageBase64String) {
                                             imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                             ImagenieUtil.setImageToElement(element, imageBase64String);
@@ -144,7 +144,7 @@
 
                             }, function () {
 
-                                ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, attrs.imageQuality)
+                                ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, scope.$eval(attrs.imageQuality))
                                     .then(function (imageBase64String) {
                                         imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                         ImagenieUtil.setImageToElement(element, imageBase64String);
