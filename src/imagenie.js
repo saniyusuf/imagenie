@@ -27,7 +27,10 @@
     function ImagenieUtil ($q){
         var ImagenieUtil = {};
 
-        ImagenieUtil.getImageBase64String = function (url, outputFormat) {
+        ImagenieUtil.getImageBase64String = function (url, outputFormat, imageQuality) {
+
+            // set default quality
+            imageQuality = typeof imageQuality !== 'undefined' ? imageQuality : 0.8;
 
             // set format to jpeg
             outputFormat = typeof outputFormat !== 'undefined' ? outputFormat : "image/jpeg";
@@ -45,7 +48,7 @@
                 ctx.drawImage(img, 0, 0);
 
                 // set image quality to medium
-                dataURL = canvas.toDataURL(outputFormat, 0.5);
+                dataURL = canvas.toDataURL(outputFormat, imageQuality);
 
                 canvas = null;
                 imageBase64StringPromise.resolve(dataURL);
@@ -130,7 +133,7 @@
                                 }else{
                                     
                                     // No need to create a new img element, just set the image
-                                    ImagenieUtil.getImageBase64String(imageSrc)
+                                    ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, attrs.imageQuality)
                                         .then(function (imageBase64String) {
                                             imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                             ImagenieUtil.setImageToElement(element, imageBase64String);
@@ -141,7 +144,7 @@
 
                             }, function () {
 
-                                ImagenieUtil.getImageBase64String(imageSrc)
+                                ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, attrs.imageQuality)
                                     .then(function (imageBase64String) {
                                         imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                         ImagenieUtil.setImageToElement(element, imageBase64String);
