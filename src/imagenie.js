@@ -2,6 +2,7 @@
  * Created by Sani Yusuf AKA Toruk Makto on 23/01/15.
  * @saniyusuf on Twitter
  *
+ * Modified by jlsuarezs on 26/10/2015
  *
  *
  * Description
@@ -26,7 +27,14 @@
     function ImagenieUtil ($q){
         var ImagenieUtil = {};
 
-        ImagenieUtil.getImageBase64String = function (url, outputFormat) {
+        ImagenieUtil.getImageBase64String = function (url, outputFormat, imageQuality) {
+
+            // set default quality
+            imageQuality = typeof imageQuality !== 'undefined' ? imageQuality : 0.8;
+
+            // set format to jpeg
+            outputFormat = typeof outputFormat !== 'undefined' ? outputFormat : "image/jpeg";
+
             var imageBase64StringPromise = $q.defer();
 
             var canvas = document.createElement('CANVAS'),
@@ -38,7 +46,10 @@
                 canvas.height = img.height;
                 canvas.width = img.width;
                 ctx.drawImage(img, 0, 0);
-                dataURL = canvas.toDataURL(outputFormat);
+
+                // set image quality to medium
+                dataURL = canvas.toDataURL(outputFormat, imageQuality);
+
                 canvas = null;
                 imageBase64StringPromise.resolve(dataURL);
             };
@@ -120,31 +131,25 @@
                                     ImagenieUtil.setImageToElement(element, localImageSuccessData);
 
                                 }else{
-                                    var newImage = angular.element('<img />');
-                                    newImage.bind('load', function () {
-                                        ImagenieUtil.getImageBase64String(imageSrc)
-                                            .then(function (imageBase64String) {
-                                                imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
-                                                ImagenieUtil.setImageToElement(element, imageBase64String);
+                                    
+                                    // No need to create a new img element, just set the image
+                                    ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, scope.$eval(attrs.imageQuality))
+                                        .then(function (imageBase64String) {
+                                            imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
+                                            ImagenieUtil.setImageToElement(element, imageBase64String);
 
-                                            });
-                                    });
-
-                                    newImage.attr('src', imageSrc);
+                                        });
+                                   
                                 }
 
                             }, function () {
 
-                                var newImage = angular.element('<img />');
-                                newImage.bind('load', function () {
-                                    ImagenieUtil.getImageBase64String(imageSrc)
-                                        .then(function (imageBase64String) {
-                                            imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
-                                            ImagenieUtil.setImageToElement(element, imageBase64String);
-                                        });
-                                });
-
-                                newImage.attr('src', imageSrc);
+                                ImagenieUtil.getImageBase64String(imageSrc, attrs.outputFormat, scope.$eval(attrs.imageQuality))
+                                    .then(function (imageBase64String) {
+                                        imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
+                                        ImagenieUtil.setImageToElement(element, imageBase64String);
+                                    });
+                                
                             });
                     }
                 });
