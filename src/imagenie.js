@@ -126,7 +126,8 @@
                                             .then(function (imageBase64String) {
                                                 imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                                 ImagenieUtil.setImageToElement(element, imageBase64String);
-
+                                            }, function(error) {
+                                                ImagenieUtil.setImageToElement(element, imageSrc);
                                             });
                                     });
 
@@ -141,6 +142,8 @@
                                         .then(function (imageBase64String) {
                                             imagenieLocalForageInstance.setItem(encodeURIComponent(imageSrc), imageBase64String);
                                             ImagenieUtil.setImageToElement(element, imageBase64String);
+                                        }, function(error) {
+                                            ImagenieUtil.setImageToElement(element, imageSrc);
                                         });
                                 });
 
