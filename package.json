@@ -2,6 +2,9 @@
   "name": "imagenie",
   "version": "1.0.0",
   "description": "",
+  "dependencies": {
+    "angular-localForage":"git+https://github.com/ocombe/angular-localForage.git"
+  },
   "devDependencies": {
     "bower": "^1.3.3",
     "gulp": "^3.9.1",
