@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/saniyusuf/imagenie.svg?branch=master)](https://travis-ci.org/saniyusuf/imagenie)
 
 # imagenie
-A repository for Angular JS component designed to used with Ionic mobile applications to automatically handle the offline caching of images.
+A repository for Angular JS component designed to be used with Ionic mobile applications to automatically handle the offline caching of images.
 
-You simply put the imagenie attribute on your DIV or IMG and the component will do the rest. If a locally stored version exisit, it will be resolved if not it will query the serve and store it for next time. 
+You simply put the imagenie attribute on your DIV or IMG and the component will do the rest. If a locally stored version exists, it will be resolved if not it will query the server and store it for next time. 
 
 ##You Must Have LocalForage And AngularLocalForage Installed As It Is Dependant On This Great Tool##
 
